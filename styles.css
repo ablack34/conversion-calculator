@@ -1,0 +1,279 @@
+:root {
+  --bg: #000;
+  --panel: #1c1c1e;
+  --display-fg: #ffffff;
+  --secondary-fg: #8e8e93;
+  --key-digit: #333336;
+  --key-digit-active: #737376;
+  --key-fn: #a5a5a5;
+  --key-fn-active: #d9d9d9;
+  --key-op: #ff9f0a;
+  --key-op-active: #ffc777;
+  --accent: #ff9f0a;
+  --pill-bg: #2c2c2e;
+  --pill-active: #3a3a3c;
+  --gap: 12px;
+  --radius: 999px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--display-fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overscroll-behavior: none;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: calc(env(safe-area-inset-top) + 8px) 16px calc(env(safe-area-inset-bottom) + 12px);
+  gap: 10px;
+}
+
+/* ---- Mode switch ---- */
+.modes {
+  display: flex;
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+.mode-btn {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--secondary-fg);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 9px 0;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.mode-btn.is-active {
+  background: var(--key-op);
+  color: #000;
+}
+
+/* ---- Convert bar ---- */
+.convert-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+.pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--pill-bg);
+  border: 0;
+  color: var(--display-fg);
+  padding: 12px 10px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pill:active { background: var(--pill-active); }
+.pill-flag { font-size: 20px; line-height: 1; }
+.swap {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--pill-bg);
+  color: var(--key-op);
+  font-size: 20px;
+  cursor: pointer;
+}
+.swap:active { background: var(--pill-active); }
+
+/* ---- Display ---- */
+.display {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: right;
+  padding: 6px 6px 4px;
+  min-height: 96px;
+  overflow: hidden;
+}
+.secondary {
+  color: var(--secondary-fg);
+  font-size: clamp(18px, 6vw, 26px);
+  font-weight: 400;
+  min-height: 30px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.secondary.converted {
+  color: var(--accent);
+  font-weight: 500;
+}
+.primary {
+  color: var(--display-fg);
+  font-size: clamp(56px, 20vw, 88px);
+  font-weight: 300;
+  line-height: 1.05;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  letter-spacing: -1px;
+}
+.rate-note {
+  color: var(--secondary-fg);
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 400;
+}
+.rate-note.offline { color: #ff9f0a; }
+.rate-note.error { color: #ff453a; }
+
+/* ---- Keypad ---- */
+.keys {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+.key {
+  border: 0;
+  border-radius: var(--radius);
+  aspect-ratio: 1 / 1;
+  background: var(--key-digit);
+  color: var(--display-fg);
+  font-size: clamp(24px, 8vw, 34px);
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .1s, filter .1s;
+}
+.key:active { background: var(--key-digit-active); }
+.key-fn {
+  background: var(--key-fn);
+  color: #000;
+  font-weight: 500;
+}
+.key-fn:active { background: var(--key-fn-active); }
+.key-op {
+  background: var(--key-op);
+  color: #fff;
+  font-size: clamp(28px, 9vw, 40px);
+}
+.key-op:active { background: var(--key-op-active); }
+.key-op.selected {
+  background: #fff;
+  color: var(--key-op);
+}
+.key-zero {
+  grid-column: span 2;
+  aspect-ratio: auto;
+  justify-content: flex-start;
+  padding-left: 8%;
+}
+
+/* ---- Currency sheet ---- */
+.sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 20;
+}
+.sheet[hidden] { display: none; }
+.sheet-panel {
+  width: 100%;
+  max-width: 480px;
+  max-height: 82dvh;
+  background: var(--panel);
+  border-radius: 20px 20px 0 0;
+  padding: 12px 16px calc(env(safe-area-inset-bottom) + 16px);
+  display: flex;
+  flex-direction: column;
+  animation: slideup .22s ease;
+}
+@keyframes slideup { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0 10px;
+}
+.sheet-title { font-size: 17px; font-weight: 600; }
+.sheet-close {
+  border: 0;
+  background: var(--pill-bg);
+  color: var(--display-fg);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+}
+.sheet-search {
+  background: #2c2c2e;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 8px;
+  outline: none;
+}
+.sheet-search::placeholder { color: #8e8e93; }
+.sheet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sheet-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 6px;
+  border-bottom: 1px solid #2c2c2e;
+  cursor: pointer;
+}
+.sheet-item:active { background: #2c2c2e; }
+.sheet-item.is-selected { color: var(--accent); }
+.sheet-item-flag { font-size: 24px; width: 30px; text-align: center; }
+.sheet-item-code { font-weight: 600; width: 46px; }
+.sheet-item-name { color: var(--secondary-fg); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sheet-item.is-selected .sheet-item-name { color: var(--accent); opacity: .8; }
+
+@media (max-height: 640px) {
+  .primary { font-size: clamp(44px, 15vw, 64px); }
+  .key { font-size: 26px; }
+  :root { --gap: 9px; }
+}

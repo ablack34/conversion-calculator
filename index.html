@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <title>Currency Calculator</title>
+  <meta name="description" content="A calculator with a built-in live currency converter. Works offline." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#1c1c1e" />
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+
+  <!-- iOS standalone -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Calculator" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app" role="application" aria-label="Currency calculator">
+    <!-- Mode switch -->
+    <div class="modes" role="tablist" aria-label="Mode">
+      <button class="mode-btn is-active" id="mode-calc" role="tab" aria-selected="true">Calculator</button>
+      <button class="mode-btn" id="mode-convert" role="tab" aria-selected="false">Convert</button>
+    </div>
+
+    <!-- Convert bar (currency pickers) -->
+    <div class="convert-bar" id="convert-bar" hidden>
+      <button class="pill" id="pill-from" aria-label="From currency">
+        <span class="pill-flag" id="from-flag">🇺🇸</span>
+        <span class="pill-code" id="from-code">USD</span>
+      </button>
+      <button class="swap" id="swap-btn" aria-label="Swap currencies">⇄</button>
+      <button class="pill" id="pill-to" aria-label="To currency">
+        <span class="pill-flag" id="to-flag">🇪🇺</span>
+        <span class="pill-code" id="to-code">EUR</span>
+      </button>
+    </div>
+
+    <!-- Display -->
+    <div class="display" id="display">
+      <div class="secondary" id="secondary">&nbsp;</div>
+      <div class="primary" id="primary">0</div>
+      <div class="rate-note" id="rate-note" hidden></div>
+    </div>
+
+    <!-- Keypad -->
+    <div class="keys" id="keys">
+      <button class="key key-fn" data-action="clear">AC</button>
+      <button class="key key-fn" data-action="negate">+/−</button>
+      <button class="key key-fn" data-action="percent">%</button>
+      <button class="key key-op" data-action="op" data-op="/">÷</button>
+
+      <button class="key" data-action="digit" data-digit="7">7</button>
+      <button class="key" data-action="digit" data-digit="8">8</button>
+      <button class="key" data-action="digit" data-digit="9">9</button>
+      <button class="key key-op" data-action="op" data-op="*">×</button>
+
+      <button class="key" data-action="digit" data-digit="4">4</button>
+      <button class="key" data-action="digit" data-digit="5">5</button>
+      <button class="key" data-action="digit" data-digit="6">6</button>
+      <button class="key key-op" data-action="op" data-op="-">−</button>
+
+      <button class="key" data-action="digit" data-digit="1">1</button>
+      <button class="key" data-action="digit" data-digit="2">2</button>
+      <button class="key" data-action="digit" data-digit="3">3</button>
+      <button class="key key-op" data-action="op" data-op="+">+</button>
+
+      <button class="key key-zero" data-action="digit" data-digit="0">0</button>
+      <button class="key" data-action="decimal">.</button>
+      <button class="key key-op key-equals" data-action="equals">=</button>
+    </div>
+  </main>
+
+  <!-- Currency picker overlay -->
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-panel" role="dialog" aria-label="Choose currency" aria-modal="true">
+      <div class="sheet-head">
+        <span class="sheet-title" id="sheet-title">Select currency</span>
+        <button class="sheet-close" id="sheet-close" aria-label="Close">✕</button>
+      </div>
+      <input class="sheet-search" id="sheet-search" type="text" inputmode="search"
+             placeholder="Search name or code" autocomplete="off" />
+      <ul class="sheet-list" id="sheet-list"></ul>
+    </div>
+  </div>
+
+  <script src="./currencies.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
