@@ -78,6 +78,7 @@ body {
   gap: 8px;
   flex: 0 0 auto;
 }
+.convert-bar[hidden] { display: none; }
 .pill {
   flex: 1;
   display: flex;

@@ -1,6 +1,9 @@
 {
   "name": "Currency Calculator",
   "short_name": "Calculator",
+  "id": "/conversion-calculator/",
+  "lang": "en",
+  "dir": "ltr",
   "description": "A calculator with a built-in live currency converter. Works offline.",
   "start_url": "./",
   "scope": "./",
@@ -27,6 +30,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshots/calculator.png",
+      "sizes": "1170x2280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Full calculator"
+    },
+    {
+      "src": "./screenshots/convert.png",
+      "sizes": "1170x2280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Live currency conversion"
+    },
+    {
+      "src": "./screenshots/picker.png",
+      "sizes": "1170x2280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "160+ currencies with search"
     }
   ]
 }
